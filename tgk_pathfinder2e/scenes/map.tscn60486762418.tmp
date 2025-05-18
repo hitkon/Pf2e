@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://ctaux7t8avp5i"]
+[gd_scene load_steps=13 format=4 uid="uid://ctaux7t8avp5i"]
 
 [ext_resource type="Script" uid="uid://1mhus7hkob4" path="res://scripts/main.gd" id="1_0cso3"]
 [ext_resource type="Texture2D" uid="uid://0fh2onrvpibe" path="res://Map/BB1-100PPI.png" id="1_paxxb"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://bywyfegm4hiik" path="res://assets/character_resized/Kira.png" id="8_wslke"]
 [ext_resource type="Texture2D" uid="uid://bwux4knedkxmy" path="res://assets/enemy resized/rat.png" id="9_be0no"]
 [ext_resource type="PackedScene" uid="uid://cry12snb6ejrw" path="res://scenes/ui/TurnHUD.tscn" id="10_blm8a"]
-[ext_resource type="Script" uid="uid://c8qngly1s57xm" path="res://scripts/LogPanel.gd" id="11_mlgqr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e0an3"]
 texture = ExtResource("1_paxxb")
@@ -1204,12 +1203,10 @@ texture_region_size = Vector2i(100, 100)
 11:23/0 = 0
 11:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 11:23/0/custom_data_0 = true
-11:23/0/custom_data_1 = 2
 11:23/0/custom_data_2 = true
 12:23/0 = 0
 12:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 12:23/0/custom_data_0 = true
-12:23/0/custom_data_1 = 2
 12:23/0/custom_data_2 = true
 13:23/0 = 0
 13:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
@@ -1354,18 +1351,15 @@ texture_region_size = Vector2i(100, 100)
 8:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 9:26/0 = 0
 9:26/0/custom_data_0 = true
-9:26/0/custom_data_1 = 3
 10:26/0 = 0
 10:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 11:26/0 = 0
 11:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 11:26/0/custom_data_0 = true
-11:26/0/custom_data_1 = 2
 11:26/0/custom_data_2 = true
 12:26/0 = 0
 12:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 12:26/0/custom_data_0 = true
-12:26/0/custom_data_1 = 2
 12:26/0/custom_data_2 = true
 13:26/0 = 0
 13:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
@@ -1410,7 +1404,7 @@ texture_region_size = Vector2i(100, 100)
 8:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 9:27/0 = 0
 9:27/0/custom_data_0 = true
-9:27/0/custom_data_1 = 6
+9:27/0/custom_data_1 = 5
 10:27/0 = 0
 10:27/0/custom_data_0 = true
 11:27/0 = 0
@@ -1421,7 +1415,6 @@ texture_region_size = Vector2i(100, 100)
 13:27/0/custom_data_0 = true
 14:27/0 = 0
 14:27/0/custom_data_0 = true
-14:27/0/custom_data_1 = 2
 14:27/0/custom_data_2 = true
 15:27/0 = 0
 15:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
@@ -1460,24 +1453,22 @@ texture_region_size = Vector2i(100, 100)
 8:28/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 9:28/0 = 0
 9:28/0/custom_data_0 = true
-9:28/0/custom_data_1 = 6
+9:28/0/custom_data_1 = 5
 10:28/0 = 0
 10:28/0/custom_data_0 = true
-10:28/0/custom_data_1 = 7
+10:28/0/custom_data_1 = 10
 11:28/0 = 0
 11:28/0/custom_data_0 = true
-11:28/0/custom_data_1 = 7
+11:28/0/custom_data_1 = 10
 12:28/0 = 0
 12:28/0/custom_data_0 = true
 12:28/0/custom_data_1 = 10
 13:28/0 = 0
 13:28/0/custom_data_0 = true
-13:28/0/custom_data_1 = 2
 13:28/0/custom_data_2 = true
 14:28/0 = 0
 14:28/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
 14:28/0/custom_data_0 = true
-14:28/0/custom_data_1 = 2
 14:28/0/custom_data_2 = true
 15:28/0 = 0
 15:28/0/physics_layer_0/polygon_0/points = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
@@ -1641,26 +1632,10 @@ level = -1
 speed = 6
 
 [node name="TurnHUD" parent="." instance=ExtResource("10_blm8a")]
-z_index = 1
-offset_left = 1832.0
-offset_top = 2712.0
-offset_right = 1964.0
-offset_bottom = 2902.0
-
-[node name="LogPanel" type="Panel" parent="."]
-offset_left = 368.0
-offset_top = 3056.0
-offset_right = 960.0
-offset_bottom = 3256.0
-script = ExtResource("11_mlgqr")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="LogPanel"]
-layout_mode = 0
-offset_right = 592.0
-offset_bottom = 200.0
-
-[node name="LogList" type="VBoxContainer" parent="LogPanel/ScrollContainer"]
-layout_mode = 2
+offset_left = 1584.0
+offset_top = 2848.0
+offset_right = 1716.0
+offset_bottom = 3003.0
 
 [editable path="PlayerCharacters/Amiri"]
 [editable path="PlayerCharacters/Valeros"]

@@ -11,6 +11,9 @@ class_name CharacterData
 @export var tempHP: int = 0
 @export var armorClass: int = 10
 @export var perception: int = 0
+@export var reach:int = 1
+
+@export var is_player_character: bool
 
 @export var skills: Dictionary = {
 	"Acrobatics": 0, "Arcana": 0, "Athletics": 0,
