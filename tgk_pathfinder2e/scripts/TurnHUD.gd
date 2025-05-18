@@ -29,15 +29,20 @@ func _on_attack_pressed():
 		current_character.make_attack(target_ac)
 		update_ui(current_character)
 
+#func _on_move_pressed():
+	#print(tile_map.local_to_map(current_character.global_position))
+	#if current_character:
+		#var origin = tile_map.local_to_map(current_character.global_position)
+		#print(origin==null)
+		#var reachable = current_character.get_reachable_tiles(origin, current_character.data.speed)
+		#current_character.highlight_tiles(reachable, Color(0, 0.6, 1, 0.6))
+	##print("Move button pressed")
+	##pass
+	
 func _on_move_pressed():
-	print(tile_map)
 	if current_character:
-		var origin = tile_map.local_to_map(current_character.global_position)
-		print(origin==null)
-		var reachable = current_character.get_reachable_tiles(origin, current_character.data.speed)
-		current_character.highlight_tiles(reachable, Color(0, 0.6, 1, 0.6))
-	#print("Move button pressed")
-	#pass
+		current_character.clear_highlights()
+		current_character.show_reachable_tiles()
 
 func _on_power_attack_pressed():
 	if current_character:

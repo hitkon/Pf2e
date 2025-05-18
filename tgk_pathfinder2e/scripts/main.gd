@@ -1,5 +1,5 @@
 extends Node2D
-@onready var tile_map: TileMapLayer = $TileMap
+@onready var tile_map: TileMapLayer = $TileMapLayer
 #@onready var combatManager: CombatManagerInstance
 
 var playerCharacters: Array

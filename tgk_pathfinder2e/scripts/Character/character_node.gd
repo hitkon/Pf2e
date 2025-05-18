@@ -1,6 +1,7 @@
 extends Node2D
 
-@onready var tile_map: TileMapLayer = $"../../TileMap"
+#@onready var tile_map: TileMap = $"../../TileMap"
+@onready var tile_map: TileMapLayer = $"../../TileMapLayer"
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var main: Node2D = $"../.."
 
@@ -14,16 +15,21 @@ func make_attack(target_ac: int):
 	if ActionTrackerInstance.use_action(1):
 		print("Attack result:", result)
 		
-func highlight_tiles(tiles: Array, color: Color = Color(0, 0.6, 1, 0.5)):
-	print(tiles)
-	for cell in tiles:
-		tile_map.modulated_cells[cell] = color
-	
-	tile_map.queue_redraw()  # IMPORTANT to trigger visual update
 		
 func clear_highlights():
 	tile_map.modulated_cells.clear()
-	tile_map.queue_redraw()
+	tile_map.notify_runtime_tile_data_update()
+
+func show_reachable_tiles():
+	var origin = tile_map.local_to_map(global_position)
+	var reachable = get_reachable_tiles(origin, data.speed)
+	
+	clear_highlights()
+	for cell in reachable:
+		tile_map.modulated_cells[cell] = Color(0.0, 1.0, 1.0, 0.4) 
+	
+	tile_map.notify_runtime_tile_data_update()
+	
 
 func get_reachable_tiles(origin: Vector2i, max_range: int) -> Array:
 	var visited = {}
@@ -43,6 +49,7 @@ func get_reachable_tiles(origin: Vector2i, max_range: int) -> Array:
 
 func is_tile_walkable(tile_pos: Vector2i) -> bool:
 	var tile_data = tile_map.get_cell_tile_data(tile_pos)
+	
 	return tile_data != null and tile_data.get_custom_data("walkable")
 
 func start_turn():
