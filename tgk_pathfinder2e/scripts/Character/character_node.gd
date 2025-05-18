@@ -17,18 +17,25 @@ func make_attack(target_ac: int):
 		
 		
 func clear_highlights():
-	tile_map.modulated_cells.clear()
+	for cell in tile_map.modulated_cells:
+		tile_map.modulated_cells[cell] = Color(1, 1, 1, 1) 
 	tile_map.notify_runtime_tile_data_update()
+	tile_map.update_internals()
+	tile_map.modulated_cells.clear()
+	#tile_map.modulated_cells[Vector2i(0,0)] = Color(1.0, 1.0, 1.0, 1) 
+	print("Clear")
+	
 
 func show_reachable_tiles():
 	var origin = tile_map.local_to_map(global_position)
 	var reachable = get_reachable_tiles(origin, data.speed)
 	
-	clear_highlights()
+	#clear_highlights()
 	for cell in reachable:
 		tile_map.modulated_cells[cell] = Color(0.0, 1.0, 1.0, 0.4) 
-	
+	print("Before Update")
 	tile_map.notify_runtime_tile_data_update()
+	#print("After Update")
 	
 
 func get_reachable_tiles(origin: Vector2i, max_range: int) -> Array:
@@ -160,6 +167,9 @@ func move(direction: Vector2):
 	sprite_2d.global_position = tile_map.map_to_local(cur_tile)
 
 func move_to_tile(target_tile: Vector2i):
+	ActionTrackerInstance.use_action(1)
+		
+	clear_highlights()
 	var cur_tile = tile_map.local_to_map(global_position)
 	#print(cur_tile)
 	#print(target_tile)

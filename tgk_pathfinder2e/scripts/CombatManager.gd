@@ -7,7 +7,7 @@ var current_turn_index: int = 0
 
 #@onready var TurnHUD = get_node("TurnHUD")
 @onready var turn_hud = get_tree().get_root().get_node("Main/TurnHUD")
-@onready var tile_map: TileMap = $TileMap
+@onready var tile_map: TileMapLayer = $TileMapLayer
 
 func start_combat(characters: Array):
 	turn_order = roll_initiative(characters)
