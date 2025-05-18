@@ -1,0 +1,67 @@
+[gd_resource type="JSON" format=3 uid="uid://d0o6g04aplikq"]
+
+[resource]
+data = {
+"classes": {
+"cleric": {
+"hit_points": 8.0,
+"key_ability": "WIS",
+"proficiencies": {
+"armor": "light armor, medium armor, shields",
+"perception": "trained",
+"saving_throws": {
+"fortitude": "trained",
+"reflex": "trained",
+"will": "expert"
+},
+"weapons": "simple"
+},
+"starting_abilities": ["Channel Energy", "Domain Initiate"]
+},
+"fighter": {
+"hit_points": 10.0,
+"key_ability": "STR or DEX",
+"proficiencies": {
+"armor": "all armor and shields",
+"perception": "expert",
+"saving_throws": {
+"fortitude": "expert",
+"reflex": "expert",
+"will": "trained"
+},
+"weapons": "all simple and martial"
+},
+"starting_abilities": ["Attack of Opportunity", "Shield Block"]
+},
+"rogue": {
+"hit_points": 8.0,
+"key_ability": "DEX",
+"proficiencies": {
+"armor": "light armor",
+"perception": "expert",
+"saving_throws": {
+"fortitude": "trained",
+"reflex": "expert",
+"will": "expert"
+},
+"weapons": "simple, shortsword, rapier, shortbow"
+},
+"starting_abilities": ["Sneak Attack", "Surprise Attack"]
+},
+"wizard": {
+"hit_points": 6.0,
+"key_ability": "INT",
+"proficiencies": {
+"armor": "none",
+"perception": "trained",
+"saving_throws": {
+"fortitude": "trained",
+"reflex": "trained",
+"will": "expert"
+},
+"weapons": "club, dagger, staff"
+},
+"starting_abilities": ["Arcane Spellcasting", "Arcane School"]
+}
+}
+}

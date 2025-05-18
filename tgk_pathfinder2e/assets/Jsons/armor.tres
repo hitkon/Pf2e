@@ -1,0 +1,61 @@
+[gd_resource type="JSON" format=3 uid="uid://0tcct4gp787g"]
+
+[resource]
+data = {
+"armor": {
+"breastplate": {
+"ac_bonus": 4.0,
+"category": "medium",
+"check_penalty": -2.0,
+"dex_cap": 1.0,
+"name": "Breastplate",
+"speed_penalty": -5.0,
+"traits": ["bulky"]
+},
+"chain_shirt": {
+"ac_bonus": 2.0,
+"category": "light",
+"check_penalty": -1.0,
+"dex_cap": 2.0,
+"name": "Chain Shirt",
+"speed_penalty": 0.0,
+"traits": ["noisy"]
+},
+"full_plate": {
+"ac_bonus": 6.0,
+"category": "heavy",
+"check_penalty": -3.0,
+"dex_cap": 0.0,
+"name": "Full Plate",
+"speed_penalty": -10.0,
+"traits": ["bulky", "noisy"]
+},
+"leather_armor": {
+"ac_bonus": 1.0,
+"category": "light",
+"check_penalty": 0.0,
+"dex_cap": 4.0,
+"name": "Leather Armor",
+"speed_penalty": 0.0,
+"traits": ["flexible"]
+},
+"scale_mail": {
+"ac_bonus": 3.0,
+"category": "medium",
+"check_penalty": -2.0,
+"dex_cap": 1.0,
+"name": "Scale Mail",
+"speed_penalty": -5.0,
+"traits": ["clumsy"]
+},
+"shield": {
+"ac_bonus": 2.0,
+"category": "shield",
+"check_penalty": 0.0,
+"dex_cap": null,
+"name": "Shield",
+"speed_penalty": 0.0,
+"traits": ["raise", "block"]
+}
+}
+}

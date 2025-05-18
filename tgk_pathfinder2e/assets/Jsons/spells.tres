@@ -1,0 +1,57 @@
+[gd_resource type="JSON" format=3 uid="uid://bq6iaubra35f3"]
+
+[resource]
+data = {
+"spells": {
+"bless": {
+"description": "Allies gain +1 status bonus to attack rolls within the area.",
+"duration": "sustained up to 1 minute",
+"level": 1.0,
+"range": "emanation 5 feet",
+"school": "enchantment",
+"target": "allies in area",
+"traditions": ["divine"],
+"traits": ["enchantment"]
+},
+"burning_hands": {
+"description": "Deals 2d6 fire damage (basic Reflex save).",
+"duration": "instantaneous",
+"level": 1.0,
+"range": "15-foot cone",
+"school": "evocation",
+"target": "all creatures in cone",
+"traditions": ["arcane", "primal"],
+"traits": ["evocation", "fire"]
+},
+"fear": {
+"description": "Target must succeed a Will save or become frightened 1 (frightened 2 on failure).",
+"duration": "1 round",
+"level": 1.0,
+"range": "30 feet",
+"school": "enchantment",
+"target": "1 creature",
+"traditions": ["arcane", "divine", "occult"],
+"traits": ["emotion", "enchantment", "fear", "mental"]
+},
+"heal": {
+"description": "Restore 1d8 HP, or 1d8 + 8 if cast using 2 actions. Damages undead on a successful Fortitude save.",
+"duration": "instantaneous",
+"level": 1.0,
+"range": "touch or 30 feet",
+"school": "necromancy",
+"target": "1 creature",
+"traditions": ["divine", "primal"],
+"traits": ["healing", "necromancy", "positive"]
+},
+"magic_missile": {
+"description": "Automatically hits for 1d4+1 force damage per action spent casting.",
+"duration": "instantaneous",
+"level": 1.0,
+"range": "120 feet",
+"school": "evocation",
+"target": "1 creature per missile",
+"traditions": ["arcane", "occult"],
+"traits": ["evocation", "force"]
+}
+}
+}

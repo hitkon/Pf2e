@@ -1,0 +1,43 @@
+[gd_resource type="JSON" format=3 uid="uid://b0t5nseoug8n1"]
+
+[resource]
+data = {
+"weapons": {
+"dagger": {
+"damage": "1d4",
+"damage_type": "piercing",
+"hands": 1.0,
+"traits": ["agile", "finesse", "thrown", "simple"]
+},
+"greatsword": {
+"damage": "1d12",
+"damage_type": "slashing",
+"hands": 2.0,
+"traits": ["two-handed", "martial"]
+},
+"longsword": {
+"damage": "1d8",
+"damage_type": "slashing",
+"hands": 1.0,
+"traits": ["versatile", "martial"]
+},
+"shortbow": {
+"damage": "1d6",
+"damage_type": "piercing",
+"hands": 2.0,
+"traits": ["ranged", "martial"]
+},
+"staff": {
+"damage": "1d4",
+"damage_type": "bludgeoning",
+"hands": 2.0,
+"traits": ["simple", "two-handed"]
+},
+"warhammer": {
+"damage": "1d8",
+"damage_type": "bludgeoning",
+"hands": 1.0,
+"traits": ["versatile", "martial"]
+}
+}
+}

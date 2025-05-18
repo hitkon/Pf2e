@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcsipkcag5hr7"]
+
+[ext_resource type="Script" uid="uid://do3tlvwykxp14" path="res://scripts/character_node.gd" id="1_e7jx8"]
+[ext_resource type="Texture2D" uid="uid://0fh2onrvpibe" path="res://Map/BB1-100PPI.png" id="1_ih8eb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7jx8"]
+atlas = ExtResource("1_ih8eb")
+region = Rect2(1200, 2600, 100, 100)
+
+[node name="Character_node" type="Node2D"]
+script = ExtResource("1_e7jx8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_e7jx8")

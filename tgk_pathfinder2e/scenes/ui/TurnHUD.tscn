@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://cry12snb6ejrw"]
+
+[ext_resource type="Script" uid="uid://lxoxj3t24hmb" path="res://scripts/TurnHUD.gd" id="1_l1die"]
+
+[node name="TurnHUD" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.3
+script = ExtResource("1_l1die")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="CharacterNameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Turn: [Character]"
+
+[node name="ActionsLeftLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Actions Left: 3"
+
+[node name="Attack" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Attack"
+
+[node name="PowerAttack" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Power Attack"
+
+[node name="Move" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Move"
+
+[node name="EndTurn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "End Turn"
