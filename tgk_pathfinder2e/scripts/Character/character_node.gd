@@ -55,7 +55,7 @@ func show_reachable_tiles():
 	#print("Before Update")
 	tile_map.set_selection_phase(tile_map.SelectionPhase.MOVE)
 	tile_map.notify_runtime_tile_data_update()
-	#print("After Update")
+	print("After Update")
 
 func get_reachable_tiles(origin: Vector2i, max_range: int) -> Array:
 	var visited = {}
