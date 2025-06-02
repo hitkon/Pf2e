@@ -14,25 +14,79 @@ extends Node2D
 var highlight_color = "#ffffff"
 var is_modulated: = false
 var enemies_characters: Array
+var atack_number: int = 0
+var active_action: String =  ""
+#var move_target_position: Vector2i
+
+var is_moving = false
+var is_selected = false
+var move_speed := 200.0
+var move_queue: Array = []
+var ancestor_dict: Dictionary = {}
 
 func demodulate():
 	sprite_2d.modulate = "#ffffff"
 
-#func take_damage(dmg: int):
-	#print("%s takes %d damage ", data.characterName, dmg)
-	#data.currentHP -= dmg
+func addActionType(actionName: String):
+	data.additionalActions.append(actionName)
+
+func use_action(action_name: String):
+	match action_name:
+		"Melee atack":
+			if ActionTracker.get_actions_left() < 1:
+				log.add_log_entry("Not enough actions to melee atack")
+				print("Not enough actions")
+				return
+			clear_highlights()
+			show_reachable_enemies()
+		"Move":
+			if ActionTracker.get_actions_left() < 1:
+				log.add_log_entry("Not enough actions to move")
+				print("Not enough actions")
+				return
+			clear_highlights()
+			show_reachable_tiles()
+		"End turn":
+			log.add_log_entry("%s ends turn" % [data.characterName])
+			CombatManagerInstance.end_turn()
+		"Vicious Swing":
+			if ActionTracker.get_actions_left() < 2:
+				log.add_log_entry("Not enough actions to Vicious Swing")
+				print("Not enough actions")
+				return
+			clear_highlights()
+			active_action = action_name
+			show_reachable_enemies()
+			
+			
+
+func make_vicious_swing(target, result):
+	print("Vicious swing:", result)
+	log.add_log_entry("%s attacks with vicious swing %s, Atack roll: %d, Total: %d, Result: %s" % [data.characterName, target.data.characterName, result["roll"], result["total"], result["result"]])
+	if result["result"] == "hit" or result["result"] == "critical_hit":
+		target.take_damage(RuleEngine.calculate_damage("2d6", -1, "physical")["amount"])
+	atack_number += 2
+		
+func make_simple_strike(target, result):
+	print("Attack result:", result)
+	log.add_log_entry("%s attacks %s, Atack roll: %d, Total: %d, Result: %s" % [data.characterName, target.data.characterName, result["roll"], result["total"], result["result"]])
+	if result["result"] == "hit" or result["result"] == "critical_hit":
+		target.take_damage(RuleEngine.calculate_damage("1d6", -1, "physical")["amount"])
+	atack_number += 1
 
 func make_attack(target):
+	clear_enemies_highlights()
+	#clear_highlights()
 	var target_ac = target.data.armorClass
 	var str_mod = RuleEngine.get_modifier(data.attributes["STR"])
 	var result = RuleEngine.resolve_attack(str_mod + data.level, target_ac)
-	if ActionTrackerInstance.use_action(1):
-		print("Attack result:", result)
-		log.add_log_entry("%s attacks %s, Atack roll: %d, Total: %d, Result: %s" % [data.characterName, target.data.characterName, result["roll"], result["total"], result["result"]])
-		if result["result"] == "hit" or result["result"] == "critical_hit":
-			target.take_damage(RuleEngine.calculate_damage("1d6", -1, "physical")["amount"])
+	
+	if active_action == "":
+		make_simple_strike(target,result)
+	if active_action == "Vicious Swing":
+		make_vicious_swing(target, result)
 		
-			
+	
 		
 		
 func clear_highlights():
@@ -82,7 +136,8 @@ func is_tile_walkable(origin_tile_pos: Vector2i, target_tile_pos: Vector2i) -> b
 
 func clear_enemies_highlights():
 	for enemy in enemies_characters:
-		enemy.demodulate()
+		enemy.deselect()
+		print("Enemy modulate: ", enemy.modulate)
 		tile_map.modulated_cells[enemy.get_tile_coords()] = Color(1,1,1,1)
 	enemies_characters.clear()
 	tile_map.notify_runtime_tile_data_update()
@@ -151,17 +206,6 @@ func get_initiative():
 	
 func apply_frightened():
 	RuleEngine.apply_condition(self, "Frightened", 2)
-	
-func use_feat(name: String):
-	var feat = data.feats.get(name)
-	if feat and feat["type"] == "action":
-		if ActionTrackerInstance.use_action(feat["cost"]):
-			match name:
-				"Power Attack":
-					# Double damage example
-					var base_dmg = RuleEngine.calculate_damage("1d8", RuleEngine.get_modifier(data.attributes["STR"]))
-					base_dmg["amount"] *= 2
-					#apply_damage(base_dmg)
 
 func take_damage(dmg: int):
 	log.add_log_entry("%s take %d damage" % [data.characterName, dmg])
@@ -187,13 +231,6 @@ func _ready() -> void:
 	sprite_2d.modulate = "#ffffff"
 	var cur_tile = tile_map.local_to_map(global_position)
 	tile_map.get_obj()[cur_tile[0]][cur_tile[1]].append(self)
-	#character = CharacterData
-	#character.Stats.setSTR(12)
-	#print(character.Stats.getSTR())
-	
-
-var is_moving = false
-var is_selected = false
 
 func _physics_process(delta: float) -> void:
 	if not is_moving:
@@ -202,7 +239,7 @@ func _physics_process(delta: float) -> void:
 	if global_position == sprite_2d.global_position:
 		is_moving = false
 		return
-	sprite_2d.global_position = sprite_2d.global_position.move_toward(global_position, 1)	
+	sprite_2d.global_position = sprite_2d.global_position.move_toward(global_position, delta * move_speed)	
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -232,26 +269,11 @@ func deselect():
 func get_tile_coords():
 	return tile_map.local_to_map(global_position)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
 	if is_moving:
+		#global_position = global_position.move_toward(move_target_position, move_speed * delta)
 		return
-	#if Input.is_action_pressed("left_click"):
-		#print("Click")
-	#if Input.is_action_pressed("up"):
-		#move(Vector2.UP)
-	#if Input.is_action_pressed("down"):
-		#move(Vector2.DOWN)	
-	
-#func move(direction: Vector2):
-	#var cur_tile = tile_map.local_to_map(global_position)
-	##print(cur_tile)
-	#
-	#var target_tile = Vector2i(cur_tile.x + direction.x, cur_tile.y + direction.y)
-	##print(target_tile)
-	#is_moving = true
-	#global_position = tile_map.map_to_local(target_tile)
-	#sprite_2d.global_position = tile_map.map_to_local(cur_tile)
 
 func move_to_tile(target_tile: Vector2i):
 
@@ -260,6 +282,7 @@ func move_to_tile(target_tile: Vector2i):
 		return
 	
 	ActionTrackerInstance.use_action(1)
+	log.add_log_entry("%s moves" % data.characterName)
 		
 	clear_highlights()
 	var cur_tile = tile_map.local_to_map(global_position)

@@ -9,7 +9,7 @@ extends Area2D
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action_pressed("left_click"):
 		print("Character selected")
-		character_node.select()
+		#character_node.select()
 		
 
 # Called when the node enters the scene tree for the first time.

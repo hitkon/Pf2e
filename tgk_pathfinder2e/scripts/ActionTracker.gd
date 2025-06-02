@@ -3,8 +3,11 @@ extends Node
 class_name ActionTracker
 
 var max_actions := 3
-var actions_left := 3
+static var actions_left := 3
 var has_reaction := true
+
+static func get_actions_left() -> int:
+	return actions_left
 
 func reset_turn():
 	actions_left = max_actions

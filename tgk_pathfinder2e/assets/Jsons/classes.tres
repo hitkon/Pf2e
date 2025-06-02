@@ -3,24 +3,54 @@
 [resource]
 data = {
 "classes": {
+"barbarian": {
+"hit_points": 12.0,
+"key_ability": ["STR"],
+"proficiencies": {
+"armor": "light, medium, unarmored",
+"perception": "expert",
+"saving_throws": {
+"fortitude": "expert",
+"reflex": "expert",
+"will": "trained"
+},
+"weapons": "all simple and martial weapons"
+},
+"starting_features": ["Rage", "Instinct"]
+},
+"bard": {
+"hit_points": 8.0,
+"key_ability": ["CHA"],
+"proficiencies": {
+"armor": "unarmored, light armor",
+"perception": "trained",
+"saving_throws": {
+"fortitude": "trained",
+"reflex": "expert",
+"will": "expert"
+},
+"weapons": "simple weapons"
+},
+"starting_features": ["Composition Cantrips", "Muse", "Occult Spellcasting"]
+},
 "cleric": {
 "hit_points": 8.0,
-"key_ability": "WIS",
+"key_ability": ["WIS"],
 "proficiencies": {
-"armor": "light armor, medium armor, shields",
+"armor": "light, medium, shields",
 "perception": "trained",
 "saving_throws": {
 "fortitude": "trained",
 "reflex": "trained",
 "will": "expert"
 },
-"weapons": "simple"
+"weapons": "simple weapons"
 },
-"starting_abilities": ["Channel Energy", "Domain Initiate"]
+"starting_features": ["Divine Spellcasting", "Doctrine", "Deity"]
 },
 "fighter": {
 "hit_points": 10.0,
-"key_ability": "STR or DEX",
+"key_ability": ["STR", "DEX"],
 "proficiencies": {
 "armor": "all armor and shields",
 "perception": "expert",
@@ -29,28 +59,28 @@ data = {
 "reflex": "expert",
 "will": "trained"
 },
-"weapons": "all simple and martial"
+"weapons": "all simple and martial weapons"
 },
-"starting_abilities": ["Attack of Opportunity", "Shield Block"]
+"starting_features": ["Attack of Opportunity", "Combat Flexibility"]
 },
 "rogue": {
 "hit_points": 8.0,
-"key_ability": "DEX",
+"key_ability": ["DEX"],
 "proficiencies": {
-"armor": "light armor",
+"armor": "unarmored, light armor",
 "perception": "expert",
 "saving_throws": {
 "fortitude": "trained",
 "reflex": "expert",
 "will": "expert"
 },
-"weapons": "simple, shortsword, rapier, shortbow"
+"weapons": "simple weapons, rapier, shortbow, shortsword"
 },
-"starting_abilities": ["Sneak Attack", "Surprise Attack"]
+"starting_features": ["Sneak Attack", "Surprise Attack"]
 },
 "wizard": {
 "hit_points": 6.0,
-"key_ability": "INT",
+"key_ability": ["INT"],
 "proficiencies": {
 "armor": "none",
 "perception": "trained",
@@ -61,7 +91,7 @@ data = {
 },
 "weapons": "club, dagger, staff"
 },
-"starting_abilities": ["Arcane Spellcasting", "Arcane School"]
+"starting_features": ["Arcane Spellcasting", "Arcane School"]
 }
 }
 }

@@ -15,6 +15,8 @@ class_name CharacterData
 
 @export var is_player_character: bool
 
+@export var additionalActions: Array = []
+
 @export var skills: Dictionary = {
 	"Acrobatics": 0, "Arcana": 0, "Athletics": 0,
 	"Crafting": 0, "Deception": 0, "Diplomaacy": 0,

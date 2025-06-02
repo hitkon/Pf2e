@@ -1588,7 +1588,6 @@ texture = ExtResource("6_blm8a")
 [node name="CharacterData" parent="PlayerCharacters/Valeros" index="1"]
 characterName = "Valeros"
 is_player_character = true
-additionalActions = ["Vicious Swing"]
 
 [node name="Ezren" parent="PlayerCharacters" instance=ExtResource("5_2lpho")]
 position = Vector2(1912, 968)
@@ -1609,7 +1608,7 @@ texture = ExtResource("8_wslke")
 [node name="CharacterData" parent="PlayerCharacters/Kira" index="1"]
 characterName = "Kira"
 is_player_character = true
-additionalActions = ["Pray"]
+additionalActions = ["Vicious Swing"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1168, 2760)

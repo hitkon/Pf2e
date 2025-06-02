@@ -3,41 +3,55 @@
 [resource]
 data = {
 "weapons": {
+"battleaxe": {
+"damage": "1d8",
+"damage_type": "slashing",
+"traits": ["sweep", "versatile P"]
+},
 "dagger": {
 "damage": "1d4",
 "damage_type": "piercing",
-"hands": 1.0,
-"traits": ["agile", "finesse", "thrown", "simple"]
+"traits": ["agile", "finesse", "thrown 10 ft.", "versatile S"]
 },
 "greatsword": {
 "damage": "1d12",
 "damage_type": "slashing",
-"hands": 2.0,
-"traits": ["two-handed", "martial"]
+"traits": ["two-hand d12"]
+},
+"longbow": {
+"damage": "1d8",
+"damage_type": "piercing",
+"traits": ["deadly d10", "propulsive", "volley 30 ft.", "reload 0", "range 100 ft."]
 },
 "longsword": {
 "damage": "1d8",
 "damage_type": "slashing",
-"hands": 1.0,
-"traits": ["versatile", "martial"]
+"traits": ["versatile P"]
+},
+"rapier": {
+"damage": "1d6",
+"damage_type": "piercing",
+"traits": ["finesse"]
 },
 "shortbow": {
 "damage": "1d6",
 "damage_type": "piercing",
-"hands": 2.0,
-"traits": ["ranged", "martial"]
+"traits": ["propulsive", "reload 0", "range 60 ft."]
+},
+"shortsword": {
+"damage": "1d6",
+"damage_type": "piercing",
+"traits": ["agile", "finesse"]
+},
+"spear": {
+"damage": "1d6",
+"damage_type": "piercing",
+"traits": ["thrown 20 ft."]
 },
 "staff": {
 "damage": "1d4",
 "damage_type": "bludgeoning",
-"hands": 2.0,
-"traits": ["simple", "two-handed"]
-},
-"warhammer": {
-"damage": "1d8",
-"damage_type": "bludgeoning",
-"hands": 1.0,
-"traits": ["versatile", "martial"]
+"traits": ["two-hand d8"]
 }
 }
 }

@@ -1,17 +1,13 @@
 extends TileMapLayer
 
 var TurnHUD
-<<<<<<< HEAD
-=======
+
 var map_obj = []
->>>>>>> 0b494ae (Fix highlight clear problem)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#print(TileMapLayer.has_method("queue_redraw"))
 	TurnHUD = get_node("/root/Main/TurnHUD") 
-<<<<<<< HEAD
-=======
 	var sizes = get_used_rect().size
 	print(sizes)
 	for x in range(sizes[0]):
@@ -20,7 +16,7 @@ func _ready() -> void:
 			map_obj[x].append([])
 			map_obj[x][y] = []
 	#map_obj = [[0 for y in range(sizes[0]) ] for x in range(sizes[0])]
->>>>>>> 0b494ae (Fix highlight clear problem)
+
 	pass # Replace with function body.
 
 func get_obj():
@@ -40,20 +36,8 @@ func get_enemy(coords: Vector2i, character_type: bool):
 			return obj
 	return null
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
-
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
-		var mouse_pos = get_global_mouse_position()
-		var tile_mouse_pos = local_to_map(mouse_pos)
-		if tile_mouse_pos in modulated_cells:
-			TurnHUD.move_to_tile(tile_mouse_pos)
-			TurnHUD.update_ui(TurnHUD.current_character)
-		print("TileMapClicked", tile_mouse_pos)
 
 enum SelectionPhase{
 	MOVE,

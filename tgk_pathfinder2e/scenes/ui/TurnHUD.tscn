@@ -19,18 +19,5 @@ text = "Turn: [Character]"
 layout_mode = 2
 text = "Actions Left: 3"
 
-[node name="Attack" type="Button" parent="VBoxContainer"]
+[node name="Actions" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-text = "Attack"
-
-[node name="PowerAttack" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Power Attack"
-
-[node name="Move" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Move"
-
-[node name="EndTurn" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "End Turn"

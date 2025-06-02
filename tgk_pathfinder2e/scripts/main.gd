@@ -8,6 +8,9 @@ var enemyCharacters: Array
 var is_fight_mode: bool
 
 @onready var amiri = $PlayerCharacters/Amiri
+@onready var ezren = $PlayerCharacters/Ezren
+@onready var kira = $PlayerCharacters/Kira
+@onready var valeros = $PlayerCharacters/Valeros
 
 var any_character_selected: bool = false
 func is_any_character_selected():
@@ -29,6 +32,8 @@ func _ready() -> void:
 	scene_size = tile_map.get_used_rect()
 	print(scene_size.size)
 	#print("Hellow world")
+	valeros.addActionType("Powerful strike")
+	
 	playerCharacters.append($PlayerCharacters/Amiri)
 	playerCharacters.append($PlayerCharacters/Valeros)
 	playerCharacters.append($PlayerCharacters/Ezren)
