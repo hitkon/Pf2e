@@ -1641,7 +1641,6 @@ texture = ExtResource("9_be0no")
 [node name="CharacterData" parent="EnemyCharacters/Big Rat2" index="1"]
 characterName = "BigRat2"
 level = -1
-speed = 6
 character_behavior = 1
 
 [node name="TurnHUD" parent="." instance=ExtResource("10_blm8a")]

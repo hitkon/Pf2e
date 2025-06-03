@@ -17,6 +17,12 @@ class_name CharacterData
 
 @export var additionalActions: Array = []
 
+enum Behavior{
+	NONE,
+	AGRESSIVE
+}
+@export var character_behavior: Behavior
+
 @export var skills: Dictionary = {
 	"Acrobatics": 0, "Arcana": 0, "Athletics": 0,
 	"Crafting": 0, "Deception": 0, "Diplomaacy": 0,

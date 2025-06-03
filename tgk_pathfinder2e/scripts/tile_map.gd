@@ -22,8 +22,17 @@ func _ready() -> void:
 func get_obj():
 	return map_obj
 	
+func has_character(coords: Vector2i):
+	#for item in  map_obj[coords[0]][coords[1]]:
+		#print("Object class", item.get_class())
+		#if item:
+			#return true
+	#print(coords)
+	#print("tile obj", not map_obj[coords[0]][coords[1]].is_empty())
+	return not map_obj[coords[0]][coords[1]].is_empty()
+	
 func has_enemy(coords: Vector2i, character_type: bool):
-	print(map_obj[coords[0]][coords[1]])
+	#print(map_obj[coords[0]][coords[1]])
 	for obj in map_obj[coords[0]][coords[1]]:
 		print("has enemy", coords, obj)
 		if obj.data.is_player_character != character_type:
@@ -54,6 +63,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		var mouse_pos = get_global_mouse_position()
 		var tile_mouse_pos = local_to_map(mouse_pos)
+		print("Tile clicked: ", tile_mouse_pos)
 		
 		if tile_mouse_pos in modulated_cells and selection_phase == SelectionPhase.MOVE:
 			selection_phase = SelectionPhase.NONE
@@ -62,7 +72,7 @@ func _input(event: InputEvent) -> void:
 		if tile_mouse_pos in modulated_cells and selection_phase == SelectionPhase.ATACK:
 			selection_phase = SelectionPhase.NONE
 			TurnHUD.make_atack(tile_mouse_pos)
-		print("TileMapClicked", tile_mouse_pos)
+		#print("TileMapClicked", tile_mouse_pos)
 
 # Dictionary to store tile positions and their corresponding modulation colors
 var modulated_cells := {}
@@ -74,5 +84,5 @@ func _use_tile_data_runtime_update(coords: Vector2i) -> bool:
 
 func _tile_data_runtime_update(coords: Vector2i, tile_data: TileData) -> void:
 	# Apply the modulation color to the specified tile
-	print("hi")
+	#print("hi")
 	tile_data.modulate = modulated_cells.get(coords, Color(1, 1, 1, 1))

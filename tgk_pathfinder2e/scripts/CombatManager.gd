@@ -18,6 +18,10 @@ func start_combat(characters: Array):
 func start_turn():
 	var char = turn_order[current_turn_index]
 	char.start_turn()
+	if not char.data.is_player_character:
+		char.make_automatic_turn()
+		return
+	
 	if turn_hud:
 		print(char.data.characterName)
 		turn_hud.update_ui(char)
@@ -25,7 +29,7 @@ func start_turn():
 		print("TurnHUD not found!")
 
 func end_turn():
-	turn_order[current_turn_index].end_turn()
+	#turn_order[current_turn_index].end_turn()
 	current_turn_index = (current_turn_index + 1) % turn_order.size()
 	start_turn()
 

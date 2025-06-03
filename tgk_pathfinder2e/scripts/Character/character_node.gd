@@ -10,6 +10,7 @@ extends Node2D
 
 @onready var log = get_node("/root/Main/LogPanel")
 
+signal animtion_end
 
 var highlight_color = "#ffffff"
 var is_modulated: = false
@@ -20,9 +21,12 @@ var active_action: String =  ""
 
 var is_moving = false
 var is_selected = false
-var move_speed := 200.0
-var move_queue: Array = []
-var ancestor_dict: Dictionary = {}
+var move_speed := 200
+#var move_queue: Array = []
+#var ancestor_dict: Dictionary = {}
+var ancestor_dict: Dictionary= {}
+var calculated_distances: Dictionary = {}
+var path_queue: Array = []
 
 func demodulate():
 	sprite_2d.modulate = "#ffffff"
@@ -114,6 +118,7 @@ func show_reachable_tiles():
 func get_reachable_tiles(origin: Vector2i, max_range: int) -> Array:
 	var visited = {}
 	var frontier = [origin]
+	ancestor_dict[origin] = origin
 	visited[origin] = 0
 	while frontier:
 		var current = frontier.pop_front()
@@ -123,16 +128,20 @@ func get_reachable_tiles(origin: Vector2i, max_range: int) -> Array:
 			if is_tile_walkable(current, neighbor) and not visited.has(neighbor):
 				var new_distance = distance + 1
 				if new_distance <= max_range:
+					ancestor_dict[neighbor] = current
 					visited[neighbor] = new_distance
 					frontier.append(neighbor)
 	visited.erase(origin)
 	return visited.keys()
 
 func is_tile_walkable(origin_tile_pos: Vector2i, target_tile_pos: Vector2i) -> bool:
+	var scene_size = tile_map.get_used_rect().size
+	if target_tile_pos[0] < 0 or target_tile_pos[0] >= scene_size[0] or target_tile_pos[1] < 0 or target_tile_pos[1] >= scene_size[1]:
+		return false
 	var target_data = tile_map.get_cell_tile_data(target_tile_pos)
 	var current_data = tile_map.get_cell_tile_data(origin_tile_pos)
-	
-	return target_data != null and target_data.get_custom_data("walkable") and (abs(target_data.get_custom_data("height") - current_data.get_custom_data("height")) <= 5 )
+	#print("from ", origin_tile_pos , "to ", target_tile_pos ," has character ", tile_map.has_character(target_tile_pos))
+	return target_data != null and target_data.get_custom_data("walkable") and (abs(target_data.get_custom_data("height") - current_data.get_custom_data("height")) <= 5) #and not tile_map.has_character(target_tile_pos)
 
 func clear_enemies_highlights():
 	for enemy in enemies_characters:
@@ -200,6 +209,7 @@ func start_turn():
 
 func end_turn():
 	print("%s ends turn." % data.characterName)
+	CombatManagerInstance.end_turn()
 
 func get_initiative():
 	return data.perception + RuleEngine.roll_d20()
@@ -228,6 +238,7 @@ func on_save_throw(save_type: String, dc: int, possible_results: String):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#connect("my_signal", self, "my_method")
 	sprite_2d.modulate = "#ffffff"
 	var cur_tile = tile_map.local_to_map(global_position)
 	tile_map.get_obj()[cur_tile[0]][cur_tile[1]].append(self)
@@ -235,11 +246,21 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_moving:
 		return
-		
+	#print(global_position, sprite_2d.global_position)	
+	#print(delta)
 	if global_position == sprite_2d.global_position:
-		is_moving = false
+		if path_queue.is_empty():
+			is_moving = false
+			animtion_end.emit()
+			return
+		global_position = tile_map.map_to_local(path_queue.front())
+		sprite_2d.global_position = tile_map.map_to_local(ancestor_dict[path_queue.front()])
+		path_queue.pop_front()
 		return
-	sprite_2d.global_position = sprite_2d.global_position.move_toward(global_position, delta * move_speed)	
+		#return
+	
+	sprite_2d.global_position = sprite_2d.global_position.move_toward(global_position, delta*move_speed)	
+	#sprite_2d.global_position = tile_map.map_to_local(path_queue.front())
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -275,6 +296,118 @@ func _process(delta: float) -> void:
 		#global_position = global_position.move_toward(move_target_position, move_speed * delta)
 		return
 
+func build_path_queue(target_tile: Vector2i):
+	
+	var path: Array = []
+	var cur_path_tile = target_tile
+	
+	while ancestor_dict[cur_path_tile] != cur_path_tile:
+		path.append(cur_path_tile)
+		cur_path_tile = ancestor_dict[cur_path_tile]	
+	
+	path.reverse()
+	#print("path", path)
+	return path
+	
+	
+func is_less_distances(dist1: Array, dist2: Array):
+	if dist1[0] < dist2[0] or (dist1[0] == dist2[0] and dist1[1] == false and dist2[1] == true):
+		return true
+	return false
+	
+
+func seek_nearest_enemy(origin: Vector2i) -> Dictionary:
+	var result = {}
+	var visited = {}
+	var frontier = {origin: [0,false]}
+	ancestor_dict[origin] = origin
+	while not frontier.is_empty():
+		var current 
+		var distance = [10**9, false]
+		for tile in frontier.keys():
+			if is_less_distances( frontier[tile], distance):
+				current = tile
+				distance = frontier[tile]
+		frontier.erase(current)
+
+		visited[current] = true
+		calculated_distances[current] = distance
+		
+		for dir in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1), Vector2i(1,1), Vector2i(-1,1), Vector2i(1,-1), Vector2i(-1,-1)]:
+			var neighbor = current + dir
+			if  is_tile_walkable(current, neighbor) and not visited.has(neighbor):
+				
+				var new_distance
+				if abs(dir[0]) + abs(dir[1]) == 2:
+					if distance[1]:
+						new_distance = [distance[0] + 2, false]	
+					else:
+						new_distance = [distance[0] + 1, true]
+				else:
+					new_distance = [distance[0] + 1, distance[1]]
+					
+				if tile_map.has_enemy(neighbor, data.is_player_character) and not tile_map.has_character(current):
+					result["enemy"] = tile_map.get_enemy(neighbor, data.is_player_character)
+					result["target_tile"] = current
+					result["distance"] = distance
+					return result
+				
+				if not frontier.has(neighbor) or is_less_distances(new_distance, frontier[neighbor]):
+					frontier[neighbor] = new_distance
+					ancestor_dict[neighbor] = current
+	return {}
+
+func build_path_to_the_nearest_reachable_enemy(target_tile: Vector2i, max_distance: int):
+	var cur = target_tile
+	while calculated_distances[cur][0] > max_distance or tile_map.has_character(cur):
+		cur = ancestor_dict[cur]
+	
+	return build_path_queue(cur)
+	
+
+func make_enemy_move(targets: Dictionary) -> void:
+	var num_turns_for_move: int = int(ceil(targets["distance"][0] / float(data.speed)))
+	print("Num of turns: ", num_turns_for_move)
+	if num_turns_for_move > 3:
+		path_queue = build_path_to_the_nearest_reachable_enemy(targets["target_tile"], 3*data.speed)
+	else:
+		path_queue = build_path_to_the_nearest_reachable_enemy(targets["target_tile"], num_turns_for_move*data.speed)
+	ActionTrackerInstance.use_action(num_turns_for_move)
+	for i in range(num_turns_for_move):
+		log.add_log_entry("%s moves" % data.characterName)
+	
+	var cur_tile = tile_map.local_to_map(global_position)
+	var target_tile = targets["target_tile"]
+	tile_map.get_obj()[cur_tile[0]][cur_tile[1]].erase(self)
+	tile_map.get_obj()[target_tile[0]][target_tile[1]].append(self)
+	
+	is_moving = true
+	global_position = tile_map.map_to_local(path_queue.front())
+	path_queue.pop_front()
+	sprite_2d.global_position = tile_map.map_to_local(cur_tile)
+	
+func is_movement_end():
+	return not is_moving
+	
+
+func make_automatic_turn():
+	if data.character_behavior == data.Behavior.AGRESSIVE:
+		var enemies = get_reachable_enemies(tile_map.local_to_map(global_position), data.reach)
+		if enemies.is_empty():
+			var targets = seek_nearest_enemy(tile_map.local_to_map(global_position))
+			print("targets:", targets)
+			if targets.is_empty():
+				end_turn()
+				return
+			make_enemy_move(targets)
+			await animtion_end
+			while ActionTrackerInstance.can_act():
+				make_attack(targets["enemy"])
+				ActionTrackerInstance.use_action(1)
+			end_turn()
+				
+			
+
 func move_to_tile(target_tile: Vector2i):
 
 	var scene_size = tile_map.get_used_rect().size
@@ -286,9 +419,13 @@ func move_to_tile(target_tile: Vector2i):
 		
 	clear_highlights()
 	var cur_tile = tile_map.local_to_map(global_position)
+	path_queue = build_path_queue(target_tile)	
+	#path_queue = [target_tile]
+	
 	tile_map.get_obj()[cur_tile[0]][cur_tile[1]].erase(self)
 	tile_map.get_obj()[target_tile[0]][target_tile[1]].append(self)
 	
 	is_moving = true
-	global_position = tile_map.map_to_local(target_tile)
+	global_position = tile_map.map_to_local(path_queue.front())
+	path_queue.pop_front()
 	sprite_2d.global_position = tile_map.map_to_local(cur_tile)
