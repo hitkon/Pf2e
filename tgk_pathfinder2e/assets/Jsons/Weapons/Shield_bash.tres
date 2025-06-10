@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://buan5y7mxdo08"]
+
+[ext_resource type="Script" uid="uid://4unxvdridhk" path="res://scripts/WeaponResource.gd" id="1_vaoe8"]
+
+[resource]
+script = ExtResource("1_vaoe8")
+weapon_name = "Shield"
+damage = "1d4"
+weapon_type = "Shield"
+traits = Array[String]([])
+hands_required = 1
+actions_required = 1
+description = ""
+proficiency = "Simple"
+range = 1
+type = 0
+reloadable = false
+metadata/_custom_type_script = "uid://4unxvdridhk"

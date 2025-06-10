@@ -28,6 +28,9 @@ func start_turn():
 	else:
 		print("TurnHUD not found!")
 
+func remove_character_from_queue(character: Character):
+	turn_order.erase(character)
+
 func end_turn():
 	#turn_order[current_turn_index].end_turn()
 	current_turn_index = (current_turn_index + 1) % turn_order.size()

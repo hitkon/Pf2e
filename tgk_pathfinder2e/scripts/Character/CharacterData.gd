@@ -11,11 +11,14 @@ class_name CharacterData
 @export var tempHP: int = 0
 @export var armorClass: int = 10
 @export var perception: int = 0
-@export var reach:int = 1
+#@export var activeReach:int = 1
 
 @export var is_player_character: bool
 
 @export var additionalActions: Array = []
+
+#@export var mainWeapon: WeaponResource
+@export var weaponEquiped: Array[WeaponResource] = []
 
 enum Behavior{
 	NONE,
@@ -35,6 +38,11 @@ enum Behavior{
 
 @export var abilities: Dictionary = {}
 
+@export var saves: Dictionary = {
+	"Fortitude":0,
+	"Reflex": 0,
+	"Will": 0
+}
 
 @export var attributes: Dictionary = {
 	"STR": 10, "DEX": 10, "CON": 10, 
@@ -52,6 +60,10 @@ enum Behavior{
 		"type": "passive",
 		"effect": "increase HP by 5"
 	}
+}
+@export var weaponProficiency: Dictionary = {
+	"Simple": 0,
+	"Martial": 0
 }
 
 #@export var items

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://be5b4m0d3ajjn"]
+
+[ext_resource type="Script" uid="uid://4unxvdridhk" path="res://scripts/WeaponResource.gd" id="1_826ua"]
+
+[resource]
+script = ExtResource("1_826ua")
+weapon_name = "Dagger"
+damage = "1d4"
+weapon_type = "Knife"
+traits = Array[String](["Agile", "Thrown", "Finesse"])
+hands_required = 1
+actions_required = 1
+description = "A short, easily concealed blade. Effective for quick strikes and can be thrown."
+proficiency = "Simple"
+range = 1
+metadata/_custom_type_script = "uid://4unxvdridhk"

@@ -19,7 +19,7 @@ func roll_dice(times: int, sides: int) -> int:
 
 # Calculate ability modifier from score
 func get_modifier(score: int) -> int:
-	return int(floor((score - 10) / 2))
+	return score #int(floor((score - 10) / 2))
 
 # Calculate damage, e.g. "1d8 + mod", with optional damage type
 func calculate_damage(base_dice: String, modifier: int = 0, damage_type: String = "physical") -> Dictionary:

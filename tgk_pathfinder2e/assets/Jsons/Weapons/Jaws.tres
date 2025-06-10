@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://chw1mcq50pu1i"]
+
+[ext_resource type="Script" uid="uid://4unxvdridhk" path="res://scripts/WeaponResource.gd" id="1_xwwd2"]
+
+[resource]
+script = ExtResource("1_xwwd2")
+weapon_name = "Jaws"
+damage = "1d6"
+weapon_type = "Natural"
+traits = Array[String](["Agile", "Finesse"])
+hands_required = 0
+actions_required = 1
+description = ""
+proficiency = "Simple"
+range = 1
+type = 0
+reloadable = false
+metadata/_custom_type_script = "uid://4unxvdridhk"

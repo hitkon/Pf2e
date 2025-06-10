@@ -32,7 +32,7 @@ func _ready() -> void:
 	scene_size = tile_map.get_used_rect()
 	print(scene_size.size)
 	#print("Hellow world")
-	valeros.addActionType("Powerful strike")
+	#valeros.addActionType("Powerful strike")
 	
 	playerCharacters.append($PlayerCharacters/Amiri)
 	playerCharacters.append($PlayerCharacters/Valeros)
