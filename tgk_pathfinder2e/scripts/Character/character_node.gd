@@ -46,7 +46,7 @@ func use_action(action_name: String, params:Dictionary = {}):
 				return
 			attack_weapon = params["weapon"]
 			clear_highlights()
-			show_reachable_enemies(params["weapon"])
+			show_reachable_characters(params["weapon"], tile_map.CharacterType.ENEMY)
 		"Move":
 			if ActionTracker.get_actions_left() < 1:
 				log.add_log_entry("Not enough actions to move")
@@ -81,9 +81,35 @@ func use_action(action_name: String, params:Dictionary = {}):
 				return
 			clear_highlights()
 			active_action = action_name
-			show_reachable_enemies(params["weapon"])
+			show_reachable_characters(params["weapon"], tile_map.CharacterType.ENEMY)
 		"Sudden Charge":			
-			pass
+			if ActionTracker.get_actions_left() < 2:
+				log.add_log_entry("Not enough actions to Vicious Swing")
+				print("Not enough actions")
+				return
+			return
+		"Magic Missile1":
+			if ActionTracker.get_actions_left() < 1:
+				log.add_log_entry("Not enough actions to Vicious Swing")
+				print("Not enough actions")
+				return
+		"Magic Missile2":
+			if ActionTracker.get_actions_left() < 2:
+				log.add_log_entry("Not enough actions to Vicious Swing")
+				print("Not enough actions")
+				return
+			return
+		"Magic Missile3":
+			if ActionTracker.get_actions_left() < 3:
+				log.add_log_entry("Not enough actions to Vicious Swing")
+				print("Not enough actions")
+				return
+			return
+		"Heal1":
+			return
+		"Heal2":
+			return
+		"Heal3":
 			return
 			
 
@@ -108,7 +134,21 @@ func make_attack(target):
 	
 	var target_ac = target.data.armorClass
 	var str_mod = RuleEngine.get_modifier(data.attributes["STR"])
-	var result = RuleEngine.resolve_attack(str_mod + data.level + data.weaponProficiency[attack_weapon.proficiency], target_ac)
+	var dex_mod = RuleEngine.get_modifier(data.attributes["DEX"])
+	var result
+	var penalty = atack_number * 5
+	if attack_weapon.traits.has(WeaponResource.WeaponTraits.Agile):
+		penalty -= atack_number
+		
+	
+	if attack_weapon.type == WeaponResource.WeaponType.RANGE:
+		result = RuleEngine.resolve_attack(dex_mod + data.level + data.weaponProficiency[attack_weapon.proficiency] - penalty, target_ac)
+	if attack_weapon.type == WeaponResource.WeaponType.MELEE:
+		if attack_weapon.traits.has(WeaponResource.WeaponTraits.Finesse):
+			result = RuleEngine.resolve_attack(max(str_mod, dex_mod) + data.level + data.weaponProficiency[attack_weapon.proficiency] - penalty, target_ac)
+		result = RuleEngine.resolve_attack(str_mod + data.level + data.weaponProficiency[attack_weapon.proficiency] - penalty, target_ac)
+	
+	atack_number += 1
 	
 	if active_action == "":
 		make_simple_strike(target,result)
@@ -156,7 +196,7 @@ func get_reachable_tiles(origin: Vector2i, min_range: int, max_range) -> Array:
 
 		visited[current] = true
 		calculated_distances[current] = distance
-		if distance[0] > min_range and distance[0] <= max_range and not tile_map.has_character(current):
+		if distance[0] > min_range and distance[0] <= max_range and not tile_map.has_character(current, true, tile_map.CharacterType.ANY):
 			result.append(current)
 		
 		for dir in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1), Vector2i(1,1), Vector2i(-1,1), Vector2i(1,-1), Vector2i(-1,-1)]:
@@ -206,14 +246,10 @@ func clear_enemies_highlights():
 	#tile_map.modulated_cells[Vector2i(0,0)] = Color(1.0, 1.0, 1.0, 1) 
 	print("Enemies Clear")
 
-func show_reachable_enemies(weapon: WeaponResource):
+func show_reachable_characters(weapon: WeaponResource, character_type):
 	var origin = tile_map.local_to_map(global_position)
-	#var enemies_result = get_reachable_enemies(origin, data.reach)
-	#var enemies_cells = enemies_result[0]
-	#var enemies_characters = enemies_result[1]
-	enemies_characters = get_reachable_enemies(origin, weapon.range)
+	enemies_characters = get_reachable_enemies(origin, weapon.range, character_type)
 	
-	#clear_highlights()
 	print(enemies_characters)
 	for enemy in enemies_characters:
 		enemy.sprite_2d.modulate = Color(1.0, 0.0, 0.0, 0.4)
@@ -225,7 +261,7 @@ func show_reachable_enemies(weapon: WeaponResource):
 
 	tile_map.notify_runtime_tile_data_update()
 
-func get_reachable_enemies(origin: Vector2i, max_range: int) -> Array:
+func get_reachable_enemies(origin: Vector2i, max_range: int, character_type) -> Array:
 	var result = []
 	var visited = {}
 	var frontier = {origin: [0,false]}
@@ -245,7 +281,7 @@ func get_reachable_enemies(origin: Vector2i, max_range: int) -> Array:
 		visited[current] = true
 		calculated_distances[current] = distance
 		print("Enemies: ", distance, current, tile_map.has_enemy(current, data.is_player_character), max_range)
-		if distance[0] <= max_range and tile_map.has_enemy(current, data.is_player_character):
+		if distance[0] <= max_range and tile_map.has_character(current, data.is_player_character, character_type): #tile_map.has_enemy(current, data.is_player_character):
 			result.append(tile_map.get_enemy(current, data.is_player_character))
 		if distance[0] == max_range:
 			continue
@@ -276,10 +312,12 @@ func get_reachable_enemies(origin: Vector2i, max_range: int) -> Array:
 
 func start_turn():
 	ActionTrackerInstance.reset_turn()
+	atack_number = 0
 	print("%s starts turn!" % data.characterName)
 
 func end_turn():
 	print("%s ends turn." % data.characterName)
+	atack_number = 0
 	CombatManagerInstance.end_turn()
 
 func get_initiative():
@@ -437,7 +475,7 @@ func seek_nearest_enemy(origin: Vector2i) -> Dictionary:
 				if tile_map.get_cell_tile_data(neighbor).get_custom_data("difficultTerrain"):
 					new_distance[0] += 1
 					
-				if tile_map.has_enemy(neighbor, data.is_player_character) and not tile_map.has_character(current):
+				if tile_map.has_enemy(neighbor, data.is_player_character) and not tile_map.has_character(current, data.is_player_character, tile_map.CharacterType.ANY):
 					result["enemy"] = tile_map.get_enemy(neighbor, data.is_player_character)
 					result["target_tile"] = current
 					result["distance"] = distance
@@ -450,7 +488,7 @@ func seek_nearest_enemy(origin: Vector2i) -> Dictionary:
 
 func build_path_to_the_nearest_reachable_enemy(target_tile: Vector2i, max_distance: int):
 	var cur = target_tile
-	while calculated_distances[cur][0] > max_distance or tile_map.has_character(cur):
+	while calculated_distances[cur][0] > max_distance or tile_map.has_character(cur, true, tile_map.CharacterType.ANY):
 		cur = ancestor_dict[cur]
 	
 	return build_path_queue(cur)
@@ -484,7 +522,7 @@ func is_movement_end():
 func make_automatic_turn():
 	if data.character_behavior == data.Behavior.AGRESSIVE:
 		# TODO get random weapon instead of 0
-		var enemies = get_reachable_enemies(tile_map.local_to_map(global_position), data.weaponEquiped[0].range)
+		var enemies = get_reachable_enemies(tile_map.local_to_map(global_position), data.weaponEquiped[0].range, tile_map.CharacterType.ENEMY)
 		if enemies.is_empty():
 			var targets = seek_nearest_enemy(tile_map.local_to_map(global_position))
 			#print("targets:", targets)

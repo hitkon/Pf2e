@@ -4,6 +4,18 @@ var TurnHUD
 
 var map_obj = []
 
+enum CharacterType{
+	ENEMY,
+	FRIEND,
+	ANY
+}
+
+enum SelectionPhase{
+	MOVE,
+	ATACK,
+	NONE
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#print(TileMapLayer.has_method("queue_redraw"))
@@ -22,14 +34,23 @@ func _ready() -> void:
 func get_obj():
 	return map_obj
 	
-func has_character(coords: Vector2i):
-	#for item in  map_obj[coords[0]][coords[1]]:
-		#print("Object class", item.get_class())
-		#if item:
-			#return true
-	#print(coords)
-	#print("tile obj", not map_obj[coords[0]][coords[1]].is_empty())
-	return not map_obj[coords[0]][coords[1]].is_empty()
+func has_character(coords: Vector2i, cur_character_type: bool, type: CharacterType):
+	match type:
+		CharacterType.ANY:
+			return not map_obj[coords[0]][coords[1]].is_empty()
+		CharacterType.ENEMY:
+			for obj in map_obj[coords[0]][coords[1]]:
+				print("has enemy", coords, obj)
+				if obj.data.is_player_character != cur_character_type:
+					return true
+			return false
+		CharacterType.FRIEND:
+			for obj in map_obj[coords[0]][coords[1]]:
+				print("has enemy", coords, obj)
+				if obj.data.is_player_character == cur_character_type:
+					return true
+			return false
+	
 	
 func has_enemy(coords: Vector2i, character_type: bool):
 	#print(map_obj[coords[0]][coords[1]])
@@ -48,11 +69,7 @@ func get_enemy(coords: Vector2i, character_type: bool):
 func _process(delta: float) -> void:
 	pass
 
-enum SelectionPhase{
-	MOVE,
-	ATACK,
-	NONE
-}
+
 
 var selection_phase: SelectionPhase
 

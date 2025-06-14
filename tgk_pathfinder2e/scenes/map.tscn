@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://ctaux7t8avp5i"]
+[gd_scene load_steps=21 format=4 uid="uid://ctaux7t8avp5i"]
 
 [ext_resource type="Script" uid="uid://1mhus7hkob4" path="res://scripts/main.gd" id="1_0cso3"]
 [ext_resource type="Texture2D" uid="uid://0fh2onrvpibe" path="res://Map/BB1-100PPI.png" id="1_paxxb"]
@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://be5b4m0d3ajjn" path="res://assets/Jsons/Weapons/Dagger.tres" id="10_p7tei"]
 [ext_resource type="Resource" uid="uid://chw1mcq50pu1i" path="res://assets/Jsons/Weapons/Jaws.tres" id="11_gw3fx"]
 [ext_resource type="Script" uid="uid://c8qngly1s57xm" path="res://scripts/LogPanel.gd" id="11_mlgqr"]
+[ext_resource type="Resource" uid="uid://bdcddinjntjfm" path="res://assets/Jsons/Weapons/Light Crossbow.tres" id="11_mo32q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e0an3"]
 texture = ExtResource("1_paxxb")
@@ -1674,7 +1675,7 @@ currentHP = 16
 armorClass = 15
 perception = 4
 is_player_character = true
-weaponEquiped = Array[ExtResource("5_wslke")]([ExtResource("10_p7tei")])
+weaponEquiped = Array[ExtResource("5_wslke")]([ExtResource("11_mo32q")])
 skills = {
 "Acrobatics": 5,
 "Arcana": 7,
@@ -1705,6 +1706,10 @@ attributes = {
 "INT": 4,
 "STR": 0,
 "WIS": 1
+}
+weaponProficiency = {
+"Martial": 0,
+"Simple": 4
 }
 
 [node name="Kira" parent="PlayerCharacters" instance=ExtResource("5_2lpho")]

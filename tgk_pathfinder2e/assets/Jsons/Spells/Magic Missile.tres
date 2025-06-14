@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://c6ug81w5j53u6"]
+
+[ext_resource type="Script" uid="uid://4unxvdridhk" path="res://scripts/WeaponResource.gd" id="1_vnlhy"]
+
+[resource]
+script = ExtResource("1_vnlhy")
+weapon_name = "Magic Missile"
+damage = "1d4"
+weapon_type = ""
+traits = Array[int]([])
+hands_required = 1
+actions_required = 1
+description = ""
+proficiency = "Simple"
+range = 1
+type = 1
+reloadable = false
+metadata/_custom_type_script = "uid://4unxvdridhk"
